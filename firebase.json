@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "runtime": "nodejs10",
+    "ignore": [
+        "credentials.json",
+        "local-server.js",
+        ".gitignore",
+        ".eslintrc.json",
+        "**/node_modules/**"
+    ]
+  }
+}
