@@ -1,2 +1,2 @@
 
-# Starter Dialogflow ES Setup
+# Starter Dialogflow CX Setup
