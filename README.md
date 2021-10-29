@@ -16,9 +16,13 @@ This repo contains starter code for Dialogflow CX Webhooks with Cloud Functions.
 
 	 More instructions: https://firebase.google.com/docs/cli
     
-4. Get Firebase service account credentions (Only needed when running the Cloud Function locally):  
+4. Get Firebase service account credentions in JSON format and save it to ```/functions/credentials.json```. 
 
-	  Get the credentional from GCP in JSON format file and add file at this path:  ```/functions/credentials.json```
+	  Credentials can be taken from either location:
+	  
+	  1. Firebase -> gear icon -> Project settings -> Service accounts -> Generate new private key
+	  
+	  2. GCP -> IAM & Admin -> Service Accounts -> select account -> Keys -> Add Key -> Create new key
 
 ## Running Cloud Function Locally
 1. Run the following commands on seperate terminals:
@@ -31,7 +35,7 @@ This repo contains starter code for Dialogflow CX Webhooks with Cloud Functions.
 
 		    npm run tunnel
     
-2. Copy the https ngrok link from terminal to the dialogFlow fulfillment section under web socket. Make sure to add ```/dialogflow/``` suffix to the https link:
+2. Copy the https ngrok link from terminal to the Webhook URL entry under Webhook. Make sure to add ```/dialogflow/``` suffix to the https link.
 
    For example: 
     
@@ -64,7 +68,7 @@ After making all the changes to the code. Follow these instructions to deploy th
 		firebase deploy --only functions
 		
 		
-4. Once successfully deployed, you will get the web hook URL in the terminal to trigger the cloud function (Can also be accessed from GCP Console). Use the link to add it to Dialgflow Fulfillment web socket section. Make sure to add ```/dialogflow/``` suffix to the URL:
+4. Once successfully deployed, you will get the web hook URL in the terminal to trigger the cloud function (Can also be accessed from GCP Console). Use the link to add it to Dialgflow Fulfillment web socket section. Make sure to add ```/dialogflow/``` suffix to the URL.
 
 	- For example:
 	
