@@ -26,44 +26,46 @@ app.post("/dialogflow", express.json(), (req, res) => {
   let tag = req.body.fulfillmentInfo.tag;
   
   console.log('Tag: ', tag);
-  console.log('Session Info Parameters: ' + JSON.stringify(req.body.sessionInfo.parameters));
+  // console.log('Session Info Parameters: ' + JSON.stringify(req.body.sessionInfo.parameters));
 
-
-  let jsonResponse = {};
-  if (tag == "welcome") {
-    const reservationDetails = db.collection('reservations').doc('12345');
-    console.log({reservationDetails})
-    //fulfillment response to be sent to the agent if the request tag is equal to "welcome tag"
+  function welcomeMessage(req, res) {
+    let jsonResponse = {};
     jsonResponse = {
       fulfillment_response: {
         messages: [
           {
             text: {
-              //fulfillment text response to be sent to the agent
               text: ["Hi! This is a webhook response"]
             }
           }
         ]
       }
     };
-  } else {
-    jsonResponse = {
-      //fulfillment text response to be sent to the agent if there are no defined responses for the specified tag
-      fulfillment_response: {
-        messages: [
-          {
-            text: {
-              ////fulfillment text response to be sent to the agent
-              text: [
-                `There are no fulfillment responses defined for "${tag}"" tag`
-              ]
-            }
-          }
-        ]
-      }
-    };
+    res.json(jsonResponse);
   }
-  res.json(jsonResponse);
+  
+  async function check_database(req, res, db) {
+    let jsonResponse = {}
+    const botParametersDoc = await db.collection('botParameters').doc('companyDetails').get();
+    jsonResponse.sessionInfo = {
+      parameters: {
+        'companyName': botParametersDoc.data().companyName
+      }
+    }
+    res.json(jsonResponse);
+  }
+  
+  switch(tag) {
+  case "welcome":
+    welcomeMessage(req, res)
+    break;
+  case "check_database":
+    check_database(req, res, db);
+    break;
+  default:
+    return res.status(404).send({ error: 'No Tag' });
+  }
+   
 });
 
 module.exports = app
